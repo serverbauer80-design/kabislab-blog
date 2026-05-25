@@ -1,0 +1,39 @@
+---
+// Decap CMS initialization for Astro
+/* global window */
+if (typeof window !== "undefined") {
+  window.CMS_MANUAL_INIT = true;
+  import('decap-cms-app').then(({ init }) => {
+    init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: import.meta.env.PUBLIC_GITHUB_REPO || '',
+          branch: 'main',
+          identity_url: import.meta.env.PUBLIC_IDENTITY_URL || ''
+        },
+        media_folder: 'public/uploads',
+        public_folder: '/uploads',
+        collections: [
+          {
+            name: 'posts',
+            label: 'Posts',
+            folder: 'src/content/posts',
+            create: true,
+            slug: '{{slug}}',
+            fields: [
+              { label: 'Title', name: 'title', widget: 'string' },
+              { label: 'Publish Date', name: 'pubDate', widget: 'datetime' },
+              { label: 'Description', name: 'description', widget: 'string' },
+              { label: 'Tags', name: 'tags', widget: 'list', required: false },
+              { label: 'Body', name: 'body', widget: 'markdown' }
+            ]
+          }
+        ],
+        load_config_file: false
+      }
+    });
+  });
+}
+---
+<div id="decap-cms-root"></div>

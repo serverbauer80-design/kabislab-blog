@@ -1,0 +1,25 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("posts");
+const sorted = [...posts].sort(
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+---
+<Base title="KabisLab Blog" description="Engineering and product notes from KabisLab">
+  <section style="margin-top:1rem;">
+    <h1>Posts</h1>
+    <ul style="list-style:none; padding:0; margin:0;">
+      {sorted.map((post) => (
+        <li style="margin-bottom:2rem;">
+          <a href={`/posts/${post.slug}`} style="text-decoration:none; color:#1b2b3b;">
+            <h2 style="margin:0 0 0.25rem;">{post.data.title}</h2>
+          </a>
+          <p style="margin:0; color:#555;">{post.data.description}</p>
+          <p style="margin:0.25rem 0 0; font-size:0.9rem; color:#777;">{new Date(post.data.pubDate).toLocaleDateString()}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

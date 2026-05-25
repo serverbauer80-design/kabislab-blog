@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>KabisLab Blog</title>
+    <link>https://blog.kabislab.com</link>
+    <description>Engineering and product stories from KabisLab.</description>
+<item>
+    <title>Hello from KabisLab</title>
+    <link>https://blog.kabislab.com/posts/hello-world</link>
+    <description>Our first note from the engineering and product team.</description>
+    <pubDate>Mon, 25 May 2026 00:00:00 GMT</pubDate>
+  </item>
+  </channel>
+</rss>

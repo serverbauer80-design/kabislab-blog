@@ -1,0 +1,88 @@
+---
+const {
+  title = 'KabisLab',
+  description = 'Insights from KabisLab',
+  canonical,
+  image
+} = Astro.props as {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+};
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://blog.kabislab.com';
+const canonicalUrl = canonical ?? siteUrl;
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {image && <meta property="og:image" content={image} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+    {plausibleDomain && (
+      // Privacy-friendly analytics. Configure via PUBLIC_PLAUSIBLE_DOMAIN env.
+      <script
+        is:inline
+        defer
+        data-domain={plausibleDomain}
+        src="https://plausible.io/js/script.js"
+      ></script>
+    )}
+  </head>
+  <body
+    style="background: radial-gradient(circle at top, #f6f9ff, #fff), #fbfdff; min-height:100vh;"
+  >
+    <div
+      style="
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <header
+        style="
+          padding:1.25rem 1rem;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          border-bottom:1px solid rgba(15,23,42,0.08);
+        "
+      >
+        <a href="/" style="text-decoration:none; color:#0f172a; font-weight:600; font-size:1.15rem;">
+          KabisLab
+        </a>
+      </header>
+      <main style="flex:1; max-width:900px; width:100%; margin:2rem auto; padding:0 1.5rem;">
+        <slot />
+      </main>
+      <footer
+        style="
+          padding:2rem 1.5rem;
+          text-align:center;
+          color:#475569;
+          font-size:0.95rem;
+        "
+      >
+        © {new Date().getFullYear()} KabisLab · <a href="/rss.xml" style="color:#0f172a;">RSS</a>
+      </footer>
+    </div>
+    <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet" />
+  <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
+
+  <pagefind-modal-trigger></pagefind-modal-trigger>
+  <pagefind-modal></pagefind-modal>
+</body>
+</html>

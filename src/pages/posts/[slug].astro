@@ -1,0 +1,39 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const collection = await getCollection("posts");
+  return collection.map(entry => ({ params: { slug: entry.slug } }));
+}
+
+const slug = Astro.params.slug;
+if (!slug) {
+  throw new Error("Missing post slug");
+}
+
+const collection = await getCollection("posts");
+const post = collection.find((entry) => entry.slug === slug);
+if (!post) {
+  throw new Error("Post not found");
+}
+const { Content } = await post.render();
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://blog.kabislab.com";
+const postUrl = `${siteUrl}/posts/${post.slug}`;
+const ogImage = post.data.ogImage ?? `${siteUrl}/images/og-card.png`;
+---
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  canonical={postUrl}
+  image={ogImage}
+>
+  <article>
+    <p style="color:#777; font-size:0.9rem; margin-bottom:0.5rem;">
+      {new Date(post.data.pubDate).toLocaleDateString()}
+    </p>
+    <div style="line-height:1.75; color:#1d2939;">
+      <Content />
+    </div>
+  </article>
+</Base>
