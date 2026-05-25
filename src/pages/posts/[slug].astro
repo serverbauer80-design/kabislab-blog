@@ -32,5 +32,20 @@ const ogImage = post.data.ogImage ?? `${siteUrl}/images/og-card.png`;
     <div style="line-height:1.75; color:#1d2939;">
       <Content />
     </div>
-  </article>
+  <script type="application/ld+json" is:inline>
+  {`
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "author": {
+      "@type": "Person",
+      "name": "${post.data.author}"
+    },
+    "datePublished": "${post.data.pubDate}",
+    "headline": "${post.data.title}",
+    "url": "${postUrl}"
+  }
+  `}
+</script>
+</article>
 </Base>
