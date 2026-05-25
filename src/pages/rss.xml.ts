@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
-const siteUrl = "https://blog.kabislab.com";
+const siteUrl = "https://kabislab-blog.pages.dev";
 
 const formatPost = (post: CollectionEntry<"posts">) => {
   const url = `${siteUrl}/posts/${post.slug}`;
@@ -18,7 +18,7 @@ const formatPost = (post: CollectionEntry<"posts">) => {
 export const prerender = true;
 
 export const GET: APIRoute = async () => {
-  const posts = await getCollection("posts");
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
   const sorted = posts.sort(
     (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
   );
@@ -30,14 +30,12 @@ export const GET: APIRoute = async () => {
   <channel>
     <title>KabisLab Blog</title>
     <link>${siteUrl}</link>
-    <description>Engineering and product stories from KabisLab.</description>
+    <description>Tech-Blog fuer PC, KI und Solar — fuer Einsteiger und Fortgeschrittene.</description>
 ${items}
   </channel>
 </rss>`;
 
   return new Response(body, {
-    headers: {
-      "Content-Type": "application/rss+xml"
-    }
+    headers: { "Content-Type": "application/rss+xml" }
   });
 };

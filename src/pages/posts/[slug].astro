@@ -1,24 +1,21 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { getCollection, CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const collection = await getCollection("posts");
+  const collection = await getCollection("posts", ({ data }) => !data.draft);
   return collection.map(entry => ({ params: { slug: entry.slug } }));
 }
 
 const slug = Astro.params.slug;
-if (!slug) {
-  throw new Error("Missing post slug");
-}
+if (!slug) throw new Error("Missing post slug");
 
-const collection = await getCollection("posts");
+const collection = await getCollection("posts", ({ data }) => !data.draft);
 const post = collection.find((entry) => entry.slug === slug);
-if (!post) {
-  throw new Error("Post not found");
-}
+if (!post) return Astro.redirect("/404");
+
 const { Content } = await post.render();
-const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://blog.kabislab.com";
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://kabislab-blog.pages.dev";
 const postUrl = `${siteUrl}/posts/${post.slug}`;
 const ogImage = post.data.ogImage ?? `${siteUrl}/images/og-card.png`;
 ---
@@ -30,7 +27,7 @@ const ogImage = post.data.ogImage ?? `${siteUrl}/images/og-card.png`;
 >
   <article>
     <p style="color:#777; font-size:0.9rem; margin-bottom:0.5rem;">
-      {new Date(post.data.pubDate).toLocaleDateString()}
+      {new Date(post.data.pubDate).toLocaleDateString('de-DE')} · {post.data.author}
     </p>
     <div style="line-height:1.75; color:#1d2939;">
       <Content />

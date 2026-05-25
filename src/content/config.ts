@@ -6,6 +6,7 @@ const posts = defineCollection({
     description: z.string(),
     pubDate: z.string(),
     author: z.string().default('KabisLab'),
+    draft: z.boolean().default(false),
     ogImage: z.string().optional(),
     tags: z.array(z.string()).optional()
   })
