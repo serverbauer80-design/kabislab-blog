@@ -1,0 +1,25 @@
+---
+---
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KabisLab Blog</title>
+  </head>
+  <body style="background: radial-gradient(circle at top, #f6f9ff, #fff), #fbfdff; min-height:100vh;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+      <header style="padding: 1.25rem 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(15,23,42,0.08);">
+        <a href="/" style="text-decoration: none; color: #0f172a; font-weight: 600; font-size: 1.15rem;">KabisLab</a>
+      </header>
+      <main style="flex: 1; max-width: 900px; width: 100%; margin: 2rem auto; padding: 0 1.5rem;">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <script defer data-domain="kabislab-blog.pages.dev" src="https://plausible.io/js/script.js"></script>
+  </body>
+</html>
+
+<script type="module" lang="ts">
+  import Footer from '../components/Footer.astro';
+</script>

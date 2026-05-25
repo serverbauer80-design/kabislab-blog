@@ -1,5 +1,6 @@
 ---
 title: Datenschutzerklärung
+layout: ../layouts/BaseLayout.astro
 ---
 
 # Datenschutzerklärung

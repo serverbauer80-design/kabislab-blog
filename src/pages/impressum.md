@@ -1,5 +1,6 @@
 ---
 title: Impressum
+layout: ../layouts/BaseLayout.astro
 ---
 
 # Impressum
